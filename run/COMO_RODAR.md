@@ -43,3 +43,15 @@ ffmpeg -i out/bridge.mp4 -i audio/mix.wav -map 0:v:0 -map 1:a:0 -c:v copy -c:a a
 - Roteiro adaptado: `run/SCRIPT_ptBR.md` (15 blocos, mesmos fatos de 1831, mesma timeline).
 - Narração: 15 blocos sintetizados, cada um encaixado no seu slot (no máximo 18 % mais rápido, sem mudar o tom).
 - Mix: música +3 dB relativa à voz, SFX −6 dB, sem legendas e sem citar canal de referência (regras da skill).
+
+## Prévia e animatic (o que já está pronto para assistir)
+
+| Arquivo | O que é |
+|---|---|
+| `run/deliver/animatic_ptBR_67s.mp4` | **animatic completo**: 15 stills na ordem/duração dos shots + narração e trilha até o fim (67,5 s). Mostra o ritmo do roteiro. |
+| `run/deliver/previa_8_atos_com_audio.mp4` | trecho de 1,1 s de cada ato renderizado de verdade (motores/câmera em movimento) + o áudio correspondente da trilha. |
+| `run/deliver/trilha_ptBR_67s.mp3` | a trilha isolada (voz pt-BR + música + SFX). |
+| `run/deliver/contato_15_cenas.jpg` | as 15 cenas num só quadro. |
+
+Render completo: `npx remotion render src/index.ts BridgeShort out/bridge.mp4 --codec h264 --crf 16 --scale 1.3333`
+numa máquina com GPU (≈2 min lá; aqui o WebGL por software custa ~90 s por frame a 540x960, ~42 h no total).

@@ -1,0 +1,14 @@
+{
+  "clips": [
+    { "id": "01_hook", "frames": [20, 30], "note": "gancho: coluna marchando em close" },
+    { "id": "02_cidade", "frames": [190, 200], "note": "a cidade e a ponte nova" },
+    { "id": "04_balanco", "frames": [500, 510], "note": "a ponte balançando sob os pés" },
+    { "id": "06_assobio", "frames": [760, 770], "note": "a coluna inteira no ritmo" },
+    { "id": "09_queda", "frames": [1040, 1050], "note": "o parafuso estala, a ponta cai" },
+    { "id": "11_dourado", "frames": [1200, 1210], "note": "riacho em golden hour, o gancho do ritmo" },
+    { "id": "12_parque", "frames": [1450, 1460], "note": "a criança no balanço" },
+    { "id": "14_regra", "frames": [1790, 1800], "note": "a placa da regra" }
+  ],
+  "fps": 30,
+  "scale": 0.5
+}
