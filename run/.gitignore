@@ -1,0 +1,9 @@
+node_modules/
+out/
+audio/_cache/
+audio/mix.wav
+audio/stem_*.wav
+voice/*.wav
+voice/words.json
+__pycache__/
+scripts/teste_pt.wav

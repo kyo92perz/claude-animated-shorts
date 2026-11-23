@@ -1,0 +1,32 @@
+{
+  "name": "claude-animated-shorts-runner",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Runner project for the bridge template of the cartoon-3d-short skill",
+  "scripts": {
+    "studio": "remotion studio src/index.ts",
+    "render": "remotion render src/index.ts BridgeShort out/bridge.mp4 --codec h264 --crf 16",
+    "stills": "node scripts/bridge-stills.mjs out/stills/x_ 100,400 0.5",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@ffmpeg-installer/ffmpeg": "^1.1.0",
+    "@react-three/fiber": "8.17.10",
+    "@react-three/postprocessing": "2.16.3",
+    "@remotion/bundler": "4.0.278",
+    "@remotion/cli": "4.0.278",
+    "@remotion/renderer": "4.0.278",
+    "@remotion/three": "4.0.278",
+    "@sparticuz/chromium": "^153.0.0",
+    "postprocessing": "6.36.4",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "remotion": "4.0.278",
+    "three": "0.169.0"
+  },
+  "devDependencies": {
+    "@types/react": "18.3.12",
+    "@types/three": "0.169.0",
+    "typescript": "5.6.3"
+  }
+}
