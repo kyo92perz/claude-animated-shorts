@@ -16,7 +16,7 @@ The style reference is a channel studied privately (`references/`: STYLE_BIBLE.m
 - Never say the channel's name in a voice-over or description.
 
 User rules that apply:
-- **Always use Mark for voiceover:** Synthesize narration using **Chatterbox TTS** cloning the **Mark ("Mark - Natural Conversations")** voice (`templates/audio/voices/mark.wav`), with optional expressive tags (`[chuckle]`, `[gasp]`, `[sigh]`).
+- **Voiceover:** Chatterbox TTS via `scripts/generate_voice.py` (default engine Chatterbox-Turbo, which understands tags like `[chuckle]`, `[laugh]`, `[sigh]`, `[gasp]`). The voice reference is `templates/audio/voices/mark.wav` when that file exists (put there only a recording you own or are licensed to clone; it is not shipped with the skill), else `--ref <wav>`, else the engine's built-in voice.
 - **Premade 3D Asset Library (Polyfork):** Use **Polyfork Catalog** (`references/polyfork/`, 3,086 low-poly models across 47 themed kits) whenever assembling 3D scenery, buildings, nature, vehicles, props, or landmarks. Use `python scripts/polyfork.py` to search, inspect, download GLBs, or generate code snippets.
 - **Always render with GPU when available:** enforce hardware acceleration across WebGL (EGL/ANGLE), Remotion renders, Whisper alignment, and Chatterbox/Kokoro voice generation.
 - No captions or labels in the video.
@@ -45,12 +45,13 @@ User rules that apply:
 3. **Voice & Word Timings (`voice.wav` + `words.json`).**
    Always use **Mark** via Chatterbox (the default in `scripts/generate_voice.py`):
    ```bash
-   # Default: Generates Mark's voice using Chatterbox with GPU acceleration:
-   python scripts/generate_voice.py --out-dir ~/bridge-short/voice --script SCRIPT.md
-
-   # With expressive tags & custom emotion dial:
-   python scripts/generate_voice.py --out-dir ~/bridge-short/voice --script SCRIPT.md --exaggeration 0.35
+   # Chatterbox-Turbo (default), with expression tags, GPU when available:
+   python scripts/generate_voice.py --out-dir ~/my-short/voice --text "Wait, you thought that would work? [chuckle] That is ridiculous."
+   python scripts/generate_voice.py --out-dir ~/my-short/voice --script SCRIPT.md
+   # Chatterbox Multilingual with the emotion dial (tags removed):
+   python scripts/generate_voice.py --out-dir ~/my-short/voice --script SCRIPT.md --engine multilingual --exaggeration 0.35
    ```
+   Run it with a Python that has `chatterbox-tts` (+ `soundfile`); words.json needs `faster-whisper` there or in `$WHISPER_PY`.
    - **Mark Voice Profile (`templates/audio/voices/mark.wav`):** Natural conversational pacing, warm timbre, articulate storytelling delivery.
    - **Chatterbox Expression Controls:**
      - Tags: `[chuckle]`, `[gasp]`, `[sigh]`, `[pause]`, `[groan]`. These vocal reactions are synthesized in Mark's voice and timestamped into `words.json` so camera kicks and visual reactions land on the exact beat.
@@ -91,7 +92,7 @@ User rules that apply:
    - Composer order: ink → lens pre → lens main → bloom → NEUTRAL tone map → grade (MSAA 4).
    - Every pixel parameter scales with output height / 1920.
 8. **Topic-Adaptive Sound & SFX Generation** (`audio/`: sfx.py, sfx_gen.py, mix.py, music.py, dsp.py).
-   - **For any topic:** Do not hardcode sounds from previous shorts. Run `python scripts/generate_sfx.py --project-dir . --render`.
+   - **For any topic:** Do not hardcode sounds from previous shorts. Run `python scripts/generate_sfx.py --project-dir ./my-short --render` (project dir holds `voice/words.json`, `voice/voice.wav`, optional `SCRIPT.md` and `audio/music.wav`; needs numpy + scipy + soundfile).
    - The generator scans `SCRIPT.md` and `voice/words.json`, identifies narrative keywords/action beats, builds layered ambience beds, and generates timestamped procedural sound cues from the 48+ DSP generators in `sfx_gen.py` (weather, vehicles, metal stress, cable snaps, impacts, splashes, foley scuffs, cartoon wobbles, and crowds).
    - `audio/mix.py` masters the final audio to ITU-R BS.1770-4 compliance: **-15.0 LUFS**, True Peak **-1.2 dBTP**, with automated speech ducking and section rides.
    - Output: `audio/mix.wav` (48 kHz stereo, exact length), stems (`stem_sfx.wav`, `stem_music.wav`, `stem_voice.wav`), and `cues.md`.
@@ -116,7 +117,7 @@ User rules that apply:
 11. **Deliver.** Provide the final mp4 path, summarize shot count and mix specs.
 
 ## Premade 3D Assets: Polyfork Catalog (47 Kits, 3,086 Models)
-The skill includes the full offline database of [Polyfork Catalog](https://github.com/lucas-martinic/polyfork-catalog) at `references/polyfork/catalog.json`. All assets are low-poly (300–2,000 tris), Y-up, meter-scaled, centered at y=0, and download directly from `https://polyfork.dev/cdn/<id>.glb`.
+The skill includes the offline index of [Polyfork Catalog](https://github.com/lucas-martinic/polyfork-catalog) at `references/polyfork/catalog.json` (3,645 models and 54 kits as of 2026-11-28; refresh with `python scripts/polyfork.py update`). Models are free for personal and commercial use with no attribution required (mesh files also CC BY 4.0; terms at https://polyfork.dev/licensing). All assets are low-poly (300–2,000 tris), Y-up, meter-scaled, centered at y=0, and download directly from `https://polyfork.dev/cdn/<id>.glb`.
 
 ### Key Themed Kits:
 - **Towns & Architecture:** Medieval Village (`medieval-village-kit-ca0b43`), Little Tokyo (`japanese-suburban-city-street-baa482`), Medieval Japan (`medieval-japan-cb01ad`), Frontier Town (`frontier-town-a0085b`), NYC (`nyc-city-kit-fbca88`), Roadside Americana (`roadside-americana-50d40c`).
